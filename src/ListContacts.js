@@ -50,7 +50,9 @@ class ListContacts extends Component {
           <Link
             to="/create"
             className="add-contact"
-          >Add Contact</Link>
+          >
+            Add Contact
+          </Link>
         </div>
 
         {showingContacts.length !== contacts.length && (
