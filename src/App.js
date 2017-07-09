@@ -8,11 +8,13 @@ class App extends Component {
   state = {
     contacts: []
   }
+
   componentDidMount() {
     ContactsAPI.getAll().then(contacts =>
       this.setState({ contacts })
     )
   }
+
   removeContact = (contact) => {
     this.setState((state) => ({
       contacts: state.contacts.filter((c) => c.id !== contact.id)
@@ -20,6 +22,15 @@ class App extends Component {
 
     ContactsAPI.remove(contact)
   }
+
+  createContact = (contact) => {
+    ContactsAPI.create(contact).then(contact => {
+      this.setState((state) => ({
+        contacts: [...state.contacts, contact]
+      }))
+    })
+  }
+
   render() {
     return (
       <div>
@@ -35,7 +46,14 @@ class App extends Component {
         />
         <Route
           path="/create"
-          component={CreateContact}
+          render={({ history }) => (
+            <CreateContact
+              onCreateContact={contact => {
+                this.createContact(contact)
+                history.push("/")
+              }}
+            />
+          )}
         />
       </div>
     )
